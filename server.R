@@ -29,7 +29,7 @@ server <- function(input, output, session) {
       inp <- input$inp_data
       #if(is.null(inp)) return(read.csv("./data/demo1.csv")) #for demo, otherwise NULL
       if(is.null(inp)) return(NULL)
-      else return(read.csv(inp$datapath))
+      else return(read.csv(inp$datapath, stringsAsFactors = F))
 
     }
   )
@@ -75,16 +75,53 @@ server <- function(input, output, session) {
     }
   })
   
-  #ord_heir_table <- reactive({
-  #})
+  # output$date_table = renderTable(ord_date_table())
   
-  output$date_table = renderTable(ord_date_table())
+  
+  data_tree = reactive(
+    {
+      tree <- input$inp_hier
+      if(is.null(tree)) return(NULL)
+      else return(read.csv(tree$datapath, stringsAsFactors = F))
+
+    }
+  )
+  output$date_table = renderTable(ord_heir_table())
+
+  no_of_col = reactive({
+    if(is.null(data_tree())){
+      return(1)
+    } else {
+        return(ncol(data_tree()))
+      }
+
+  })
+  
+
+  observe({
+    updateSelectInput(session, inputId = "level", label = "Select hiearchy level",choices =  1:no_of_col(), selected =1)
+    })
+  
+    
+   ord_heir_table <- reactive({
+     if(is.null(data_tree()))
+     {
+       return(ord_date_table())
+     } else {
+       return(aggregate_hierarchy(ord_date_table(),data_tree(),as.numeric(input$level)))
+     }
+   })
+  
+  
+  
+  
+  
   
   ProcessInpAndGetApproxMap = function() {
     if(is.null(data_uploaded())) {
       return(NULL)
     } else {
-      inp = cvt_seq(ord_date_table())    
+      inp = cvt_seq(ord_heir_table())    
       results = get_approxMap(inp,input$numKNN, input$cons_cutoff)
       # format_output(results)
       return(results) 

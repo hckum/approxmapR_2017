@@ -102,7 +102,18 @@ ui <- fluidPage(
     
       ),
       
-      wellPanel(
+    wellPanel(
+      fileInput(inputId = "inp_hier", 
+                label = tags$h4("3. Hierarchy File Upload")),
+      
+    selectInput(
+     inputId = "level", label = "Select hiearchy level",
+     c(1:4), selected = 1
+     )
+    ),
+    
+    
+    wellPanel(
         tags$h4("3. Clustering (kNN)"), tags$br(),
         numericInput(inputId = "numKNN", label = "Enter number of nearest neighbours(k)", value=2)
       ),
