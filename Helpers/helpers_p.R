@@ -64,3 +64,19 @@ ord.heir = function(data2, level){
     
   }
 }
+
+
+#function to order according to level
+
+aggregate_hierarchy <- function(input, tree, level) {
+  names(input) <-c("id","date",names(tree)[1])
+  # if(length(setdiff(input[,3],tree[,1]))>0)
+  # {
+  #   return("Matching rows not found for every item in original dataset")
+  # } else {
+    (df <- left_join(input,tree, by = names(input)[3]))
+    return(df[,c(1,2,(level+2))])
+  #}
+  
+  
+}
