@@ -64,13 +64,13 @@ ui <- fluidPage(
         
         selectInput("period1", label = "Predefined Time Periods:",
                     #list(`Days` = c("1-d","5-d","10-d"), `Weeks` = c("1-w","2-w","4-w"), `Month` = c("Calender Month","3 Month"))
-                     c("1 week","Calender Month", "Quarterly", "6 Month", "1 Year")
+                     c("1 Week","Calender Month", "Quarterly", "6 Month", "1 Year")
         ),
         
     #    numericInput(inputId = "period2", label = "Specify manually (in days) (To be discussed Later):", value=0),
         
         conditionalPanel(
-          condition = "input.period1  == '1 week' ",
+          condition = "input.period1  == '1 Week' ",
             selectInput(
               inputId = "days", label = "Day to start from",
               c("Mon","Tue","Wed","Thur","Fri","Sat","Sun"))
@@ -128,8 +128,14 @@ ui <- fluidPage(
       
       tabsetPanel(id = "tabs",
         tabPanel("Data",
-                 tableOutput("contents"),
-                 verbatimTextOutput(outputId = "processedOut")
+                 column(6,
+                        tableOutput("contents"),
+                        verbatimTextOutput(outputId = "processedOut")
+                        ),
+                 column(6,
+                        tableOutput("date_table")
+                 )
+                 
                  ),
         
         tabPanel("Clusters",

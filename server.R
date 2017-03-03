@@ -6,6 +6,7 @@ library(ApproxMapSeq)
 library(tidyverse)
 
 source("./Helpers/Helpers.R")
+source("./Helpers/helpers_p.R")
 
 #data_uploaded = read.csv("./data/demo1.csv")
 
@@ -37,7 +38,7 @@ server <- function(input, output, session) {
     if(is.null(data_uploaded())) {
       return("Upload data to view here")
     } else {
-      return(head(data_uploaded()))
+      return((data_uploaded()))
     }
     })
   
@@ -48,16 +49,33 @@ server <- function(input, output, session) {
     }
   )
   
+  output$date_table <- renderTable({
+    if(is.null(data_uploaded()))
+    {
+      return("")
+    } else {
+      tbl = ord_date(data_uploaded(),
+                     get.pd(input$period1),
+                     get.st.date(input$days))
+      
+      return(tbl) 
+    }
+  })
+  
   ProcessInpAndGetApproxMap = function() {
     if(is.null(data_uploaded())) {
       return(NULL)
     } else {
-      inp = cvt_seq(data_uploaded(),pd = 1)
+      inp = cvt_seq(data_uploaded(),
+                    get.pd(input$period1),
+                    get.st.date(input$days))    
       results = get_approxMap(inp,input$numKNN, input$cons_cutoff)
       # format_output(results)
       return(results) 
     }
   }
+  
+  
   
   approxmap_obj <- eventReactive(input$but_AppMap,ProcessInpAndGetApproxMap())
   
