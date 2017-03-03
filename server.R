@@ -49,26 +49,42 @@ server <- function(input, output, session) {
     }
   )
   
-  output$date_table <- renderTable({
+  ord_date_table <- reactive({
     if(is.null(data_uploaded()))
     {
       return("")
     } else {
-      tbl = ord_date(data_uploaded(),
-                     get.pd(input$period1),
-                     get.st.date(input$days))
       
-      return(tbl) 
+      if(input$period1 == "1 Week") {
+        return(ord_date(data_uploaded(),
+                        get.pd(input$period1),
+                        get.st.date(input$week_st)))
+      } else if(input$period1 == "6 Months") {
+       return(ord_date(data_uploaded(),
+                        get.pd(input$period1),
+                        get.st.date(input$month6_st)))
+      } else if(input$period1 == "1 Year") {
+        return(ord_date(data_uploaded(),
+                        get.pd(input$period1),
+                        get.st.date(input$year_st)))
+      } else {
+        return(ord_date(data_uploaded(),
+                        get.pd(input$period1)))
+      }
+      
     }
   })
+  
+  #ord_heir_table <- reactive({
+  #})
+  
+  output$date_table = renderTable(ord_date_table())
   
   ProcessInpAndGetApproxMap = function() {
     if(is.null(data_uploaded())) {
       return(NULL)
     } else {
-      inp = cvt_seq(data_uploaded(),
-                    get.pd(input$period1),
-                    get.st.date(input$days))    
+      inp = cvt_seq(ord_date_table())    
       results = get_approxMap(inp,input$numKNN, input$cons_cutoff)
       # format_output(results)
       return(results) 

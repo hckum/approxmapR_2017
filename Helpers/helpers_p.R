@@ -5,7 +5,7 @@ get.pd = function(period1){
   else if (period1 == 'Calender Month'){ pd = 2 }
   else if (period1 == 'Quarterly'){ pd = 3 }
   else if (period1 == '6 Month'){ pd = 4 }
-  else { pd = 5 }
+  else if (period1 == '1 Year'){ pd = 5 }
 }
 
 
