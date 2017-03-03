@@ -4,7 +4,7 @@ library(lubridate)
 
 ui <- fluidPage(
   #theme = "bootstrap3.css",
-  shinythemes::themeSelector(),
+  #shinythemes::themeSelector(),
   tags$head(
       tags$style(
         HTML("
@@ -64,21 +64,21 @@ ui <- fluidPage(
         
         selectInput("period1", label = "Predefined Time Periods:",
                     #list(`Days` = c("1-d","5-d","10-d"), `Weeks` = c("1-w","2-w","4-w"), `Month` = c("Calender Month","3 Month"))
-                     c("1 week","Calender Month", "Quarterly", "6 Month", "1 Year")
+                     c("1 Week","Calender Month", "Quarterly", "6 Month", "1 Year")
         ),
         
     #    numericInput(inputId = "period2", label = "Specify manually (in days) (To be discussed Later):", value=0),
         
         conditionalPanel(
-          condition = "input.period1  == '1 week' ",
+          condition = "input.period1  == '1 Week' ",
             selectInput(
-              inputId = "days", label = "Day to start from",
+              inputId = "week_st", label = "Day to start from",
               c("Mon","Tue","Wed","Thur","Fri","Sat","Sun"))
         ),
          
         conditionalPanel(
           condition = "input.period1  == 'Calender Month' ",
-            textOutput("text1")
+            "Text 1"
        ), 
     
         conditionalPanel(
@@ -89,14 +89,14 @@ ui <- fluidPage(
         conditionalPanel(
           condition = "input.period1  == '6 Month' ",
             selectInput(
-              inputId = "days", label = "Month to start from",
+              inputId = "month6_st", label = "Month to start from",
               c("Jan","Feb","Mar","Apr","May","Jun","July","Aug","Sep","Oct","Nov","Dec"))
        ),
        
         conditionalPanel(
           condition = "input.period1  == '1 Year' ",
             selectInput(
-              inputId = "days", label = "Month to start from",
+              inputId = "year_st", label = "Month to start from",
               c("Jan","Feb","Mar","Apr","May","Jun","July","Aug","Sep","Oct","Nov","Dec"))
     )
     
@@ -128,8 +128,14 @@ ui <- fluidPage(
       
       tabsetPanel(id = "tabs",
         tabPanel("Data",
-                 tableOutput("contents"),
-                 verbatimTextOutput(outputId = "processedOut")
+                 column(6,
+                        tableOutput("contents"),
+                        verbatimTextOutput(outputId = "processedOut")
+                        ),
+                 column(6,
+                        tableOutput("date_table")
+                 )
+                 
                  ),
         
         tabPanel("Clusters",
