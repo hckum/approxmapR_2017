@@ -58,14 +58,22 @@ get_tagged_itemsets_from_wseq = function(wseq) {
   wseq$n = NULL
   weights = unlist(lapply(wseq, function(x) x$element_weights))
   range = range(weights)
-  block_size = diff(range)/5
-  blocks = seq(range[1],range[2],by = block_size)
-  wseq = lapply(wseq, function(w_itemset) {
-    block_no = cut(w_itemset$element_weights,breaks = blocks, labels = F, include.lowest = T)
-    w_itemset$start_tag = paste0("<priority",block_no,">")
-    w_itemset$end_tag = paste0("</priority",block_no,">")
-    return(w_itemset)
-  })
+  if(range[1] != range[2]){
+    block_size = diff(range)/5
+    blocks = seq(range[1],range[2],by = block_size)
+    wseq = lapply(wseq, function(w_itemset) {
+      block_no = cut(w_itemset$element_weights,breaks = blocks, labels = F, include.lowest = T)
+      w_itemset$start_tag = paste0("<priority",block_no,">")
+      w_itemset$end_tag = paste0("</priority",block_no,">")
+      return(w_itemset)
+    })
+  } else {
+    wseq = lapply(wseq, function(w_itemset) {
+      w_itemset$start_tag = rep("<priority5>",length(w_itemset$elements))
+      w_itemset$end_tag = rep("</priority5>",length(w_itemset$elements))
+      return(w_itemset)
+    })
+  }
 
   return(wseq)
 }
@@ -98,7 +106,7 @@ get_cons_var_table <- function (weighted_seq, var_cutoff, cons_cutoff) {
   var_table = get_consensus_formatted_HTML_tablerow(weighted_seq,var_cutoff,blank_if_absent = F,pattern = "Variation")
   var_pat = get_consensus_pattern(weighted_seq,var_cutoff,blank_if_absent = F)
   cons_table = get_consensus_formatted_HTML_tablerow(var_pat,cons_cutoff,blank_if_absent = T)
-  table = paste0("<table>",var_table,cons_table,"</table>")
+  table = paste0("<table>",cons_table,var_table,"</table>")
   return(table)
 }
 
