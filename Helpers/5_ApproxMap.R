@@ -11,11 +11,10 @@
 #' @examples get_consensus_pattern(weighted_seq, 0.4)
 
 
-get_consensus_pattern = function(weighted_seq, strength) {
+get_consensus_pattern = function(weighted_seq, strength, blank_if_absent = F) {
 
   n = weighted_seq$n
   weighted_seq$n = NULL
-
   min_occurences = n * strength
   consensus_pattern = list()
 
@@ -23,9 +22,15 @@ get_consensus_pattern = function(weighted_seq, strength) {
     itemset = weighted_seq[[i]]
     strength_test = itemset$element_weights > min_occurences
     elements = (itemset$elements[strength_test])
+    element_weights = itemset$element_weights[strength_test]
     #consensus_pattern = append(consensus_pattern,elements,i-1)
-    if(length(elements)>0) consensus_pattern[[length(consensus_pattern)+1]] = elements
+    if(length(elements)>0) consensus_pattern[[length(consensus_pattern)+1]] = list(elements = elements, element_weights = element_weights)
+    if(blank_if_absent) {
+      if(length(elements) == 0) consensus_pattern[[length(consensus_pattern)+1]] = list(elements = "", element_weights = NULL)
+    }
   }
+
+  consensus_pattern$n = n
 
   return(consensus_pattern)
 }

@@ -2,12 +2,12 @@ format_output = function(approxmap_obj) {
   clusters = approxmap_obj$clusters
   form_cons = approxmap_obj$formatted_results$consensus
   form_wseq = approxmap_obj$formatted_results$weighted_seq
-  
+
   for(i in 1:length(clusters)) {
-    
+
     cat(paste("Cluster ",i,":",sep = ""),"\n","Sequence IDs: ", clusters[[i]], "\n", "Weighted Sequence: ", form_wseq[[i]], "\n", "Consensus Pattern: ", form_cons[[i]],"\n\n")
   }
-  
+
 }
 
 extract_freq = function(weighted_seq) {
@@ -23,9 +23,9 @@ plot_frequency = function(weighted_seq, cons_threshhold =0.5, noise_threshold = 
   n_thresh = cons_threshhold * weighted_seq$n
   v_thresh = variation_threshold * weighted_seq$n
   fq = extract_freq(weighted_seq)
-  freq_plot <- fq %>% dplyr::mutate(element_number = 1:nrow(fq)) %>%  dplyr::filter(element_weights > noise_threshold) %>% 
-    ggplot2::ggplot(aes(x = element_number, y = element_weights, text = elements)) + 
-      ggplot2::geom_point(size = 0.75) + 
+  freq_plot <- fq %>% dplyr::mutate(element_number = 1:nrow(fq)) %>%  dplyr::filter(element_weights > noise_threshold) %>%
+    ggplot2::ggplot(aes(x = element_number, y = element_weights, text = elements)) +
+      ggplot2::geom_point(size = 0.75) +
         ggplot2::geom_path(group = 1, size=0.1) +
           ggplot2::geom_hline(yintercept = n_thresh, linetype = 2) +
             ggplot2::geom_hline(yintercept = v_thresh, linetype = 4) +
@@ -66,7 +66,7 @@ get_tagged_itemsets_from_wseq = function(wseq) {
     w_itemset$end_tag = paste0("</priority",block_no,">")
     return(w_itemset)
   })
-  
+
   return(wseq)
 }
 
@@ -75,15 +75,32 @@ tag_items = function(itemset_with_tags) {
   return(itemset_with_tags)
 }
 
-get_consensus_formatted_HTML <- function(weighted_seq, strength) {
+get_consensus_formatted_HTML_tablerow <- function(weighted_seq, strength,blank_if_absent = F, pattern = "Consensus") {
   n = weighted_seq$n
   weighted_seq$n = NULL
   W_seq_html = get_tagged_itemsets_from_wseq(weighted_seq)
   tagged_items_wseq <- lapply(W_seq_html, tag_items)
   tagged_items_wseq$n = n
-  return(get_consensus_formatted(get_consensus_pattern(tagged_items_wseq,strength)))
+  cons_tagged = get_consensus_pattern(tagged_items_wseq,strength,blank_if_absent)
+  cons_tagged$n = NULL
+  consensus_pattern = unlist(lapply(cons_tagged, function(items) {
+      items = items$elements
+      item = paste(items,collapse = ",")
+      if(item != "") item = paste0("(",item,")")
+      paste0("<td>",item,"</td>")
+    }))
+  consensus_pattern = paste0(consensus_pattern,collapse = "")
+  consensus_pattern = paste0("<tr><td width = 35%>",pattern,":</td>",consensus_pattern,"</tr>")
+  return(consensus_pattern)
 }
 
+get_cons_var_table <- function (weighted_seq, var_cutoff, cons_cutoff) {
+  var_table = get_consensus_formatted_HTML_tablerow(weighted_seq,var_cutoff,blank_if_absent = F,pattern = "Variation")
+  var_pat = get_consensus_pattern(weighted_seq,var_cutoff,blank_if_absent = F)
+  cons_table = get_consensus_formatted_HTML_tablerow(var_pat,cons_cutoff,blank_if_absent = T)
+  table = paste0("<table>",var_table,cons_table,"</table>")
+  return(table)
+}
 
 
 

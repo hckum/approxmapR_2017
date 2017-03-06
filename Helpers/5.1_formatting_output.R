@@ -55,6 +55,8 @@ get_C_Itemset_Formatted = function(C_itemset, no_white_space = T) {
 
 get_consensus_formatted = function(consensus_pattern, no_space_bw_Items = T, no_space_bw_Itemsets = T) {
   #pattern_list = consensus_pattern[[2]]
+  consensus_pattern$n = NULL
+  consensus_pattern = lapply(consensus_pattern, function(x) x$elements)
   itemsets_formatted = lapply(consensus_pattern, get_C_Itemset_Formatted, no_space_bw_Items)
   result = character()
   if(no_space_bw_Itemsets) {
