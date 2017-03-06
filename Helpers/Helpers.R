@@ -23,7 +23,7 @@ plot_frequency = function(weighted_seq, cons_threshhold =0.5, noise_threshold = 
   n_thresh = cons_threshhold * weighted_seq$n
   v_thresh = variation_threshold * weighted_seq$n
   fq = extract_freq(weighted_seq)
-  freq_plot <- fq %>% dplyr::mutate(element_number = 1:nrow(fq)) %>%  filter(element_weights > noise_threshold) %>% 
+  freq_plot <- fq %>% dplyr::mutate(element_number = 1:nrow(fq)) %>%  dplyr::filter(element_weights > noise_threshold) %>% 
     ggplot2::ggplot(aes(x = element_number, y = element_weights, text = elements)) + 
       ggplot2::geom_point(size = 0.75) + 
         ggplot2::geom_path(group = 1, size=0.1) +
