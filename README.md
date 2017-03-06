@@ -37,8 +37,8 @@ The steps for using the applet are discussed below (The points correspond to the
   
 ###Demo
 1. Go to [http://ilangurudev.shinyapps.io/ApproxMap_Shiny/]
-2. For the input data file, use "demo1.csv" found in the data folder of this github folder.
-3. For the hierarchical data, use "Tree.csv". Please ensure that you do not select "Tree - Copy.csv" as it is a hierarchical file with a few entries missing (to be used for testing).
+2. For the input data file, use "demo1.csv" found in the data folder of this github project [http://github.com/hckum/approxmapR/tree/master/data] (Right-click and click on save link/target as)
+3. For the hierarchical data, use "Tree.csv" in the same folder using the same method. Please ensure that you do not select "Tree - Copy.csv" as it is a hierarchical file with a few entries missing (to be used for testing).
 4. Use any input parameter.
  
 Feel free to leave your suggestions at [kum@tamu.edu] or [ilan50_guru@tamu.edu]
