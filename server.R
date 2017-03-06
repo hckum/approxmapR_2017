@@ -1,14 +1,19 @@
 library(shiny)
 library(shinydashboard)
-library(devtools)
-install_github("ilangurudev/ApproxMapSeq")
-library(ApproxMapSeq)
+# library(devtools)
+# install_github("ilangurudev/ApproxMapSeq")
+# library(ApproxMapSeq)
 library(tidyverse)
 
 source("./Helpers/Helpers.R")
 source("./Helpers/helpers_p.R")
+source("./Helpers/1_Preprocessing.R")
+source("./Helpers/2_calculate_dist_and_cost.R")
+source("./Helpers/3_alignments.R")
+source("./Helpers/4_clustering.R")
+source("./Helpers/5.1_formatting_output.R")
+source("./Helpers/5_ApproxMap.R")
 
-#data_uploaded = read.csv("./data/demo1.csv")
 
 server <- function(input, output, session) {
   
