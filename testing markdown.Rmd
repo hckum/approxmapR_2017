@@ -8,8 +8,9 @@ output: html_document
 ```{r}
 
 inp = read.csv("./data/demo1.csv")
-inp = cvt_seq(inp,pd=1)
+inp = cvt_seq(ord_date(inp,pd=3))
 weighted_seq = align_multiple_sequences(inp)
+get_approxMap(inp,1,0.4)
 weighted_seq$n = NULL
 
 

@@ -114,12 +114,12 @@ ui <- fluidPage(
     
     
     wellPanel(
-        tags$h4("3. Clustering (kNN)"), tags$br(),
+        tags$h4("4. Clustering (kNN)"), tags$br(),
         numericInput(inputId = "numKNN", label = "Enter number of nearest neighbours(k)", value=2)
       ),
       
       wellPanel(
-        tags$h4("4. Cutoffs"), tags$br(),
+        tags$h4("5. Cutoffs"), tags$br(),
         numericInput(inputId = "noise_cutoff", label = "Noise Cutoff", value = 0), tags$br(),
         sliderInput(inputId = "var_cutoff", label = "Variation Cutoff", min = 0, max = 1,value = 0.2),tags$br(),
         sliderInput(inputId = "cons_cutoff", label = "Consensus Cutoff", min = 0, max = 1,value = 0.4),tags$br()
@@ -129,7 +129,7 @@ ui <- fluidPage(
      
      
      wellPanel(
-        tags$h4("5. Get ApproxMap"), tags$br(),
+        tags$h4("6. Get ApproxMap"), tags$br(),
         actionButton(inputId = "but_AppMap", label = "Calculate")
       )
       
