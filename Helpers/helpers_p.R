@@ -1,34 +1,36 @@
 #convert period and start date in numbers
 
 get.pd = function(period1){
-  if(period1  == '1 Week'){ pd = 1 }
-  else if (period1 == 'Calender Month'){ pd = 2 }
-  else if (period1 == 'Quarterly'){ pd = 3 }
-  else if (period1 == '6 Month'){ pd = 4 }
-  else if (period1 == '1 Year'){ pd = 5 }
+  period1 = tolower(period1)
+  if(period1  == '1 week'){ pd = 1 }
+  else if (period1 == 'calender month'){ pd = 2 }
+  else if (period1 == 'quarterly'){ pd = 3 }
+  else if (period1 == '6 month'){ pd = 4 }
+  else if (period1 == '1 year'){ pd = 5 }
 }
 
 
 get.st.date = function(days){
   
-  if(days == "Mon"){st.date = 2}
-  else if (days == "Tue") {st.date = 3}
-  else if (days == "Wed") {st.date = 4}
-  else if (days == "Thur") {st.date = 5}
-  else if (days == "Fri") {st.date = 6}
-  else if (days == "Sat") {st.date = 7}
-  else if (days == "Sun") {st.date = 1}
-  else if (days == "Jan"){st.date = 1}
-  else if (days == "Feb") {st.date = 2}
-  else if (days == "Mar") {st.date = 3}
-  else if (days == "Apr") {st.date = 4}
-  else if (days == "May") {st.date = 5}
-  else if (days == "Jun") {st.date = 6}
-  else if (days == "July") {st.date = 7}
-  else if (days == "Aug") {st.date = 8}
-  else if (days == "Sep") {st.date = 9}
-  else if (days == "Oct") {st.date = 10}
-  else if (days == "Nov") {st.date = 11}
+  days = tolower(days)
+  if(days == "mon"){st.date = 2}
+  else if (days == "tue") {st.date = 3}
+  else if (days == "wed") {st.date = 4}
+  else if (days == "thur") {st.date = 5}
+  else if (days == "fri") {st.date = 6}
+  else if (days == "sat") {st.date = 7}
+  else if (days == "sun") {st.date = 1}
+  else if (days == "jan"){st.date = 1}
+  else if (days == "feb") {st.date = 2}
+  else if (days == "mar") {st.date = 3}
+  else if (days == "apr") {st.date = 4}
+  else if (days == "may") {st.date = 5}
+  else if (days == "jun") {st.date = 6}
+  else if (days == "july") {st.date = 7}
+  else if (days == "aug") {st.date = 8}
+  else if (days == "sep") {st.date = 9}
+  else if (days == "oct") {st.date = 10}
+  else if (days == "nov") {st.date = 11}
   else {st.date = 12}
   
 }
